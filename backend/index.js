@@ -1,4 +1,5 @@
 import express from "express";
+import mongoose from "mongoose";
 import { PORT, mongoDBURL } from "./config.js";
 
 const app = express();
@@ -9,7 +10,7 @@ app.get("/", (req, res) => {
 });
 
 mongoose
-  .connect("mongodb://localhost:27017")
+  .connect("mongodb://localhost:27017/bookstore")
   .then(() => {
     console.log("App is connect to database");
     app.listen(PORT, () => {
