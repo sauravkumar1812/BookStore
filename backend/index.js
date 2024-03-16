@@ -8,11 +8,14 @@ app.get("/", (req, res) => {
   return res.status(234).send("Hey Saurav You are Good to Go");
 });
 
-app.listen(PORT, () => {
-  console.log(`App is listing to port : ${PORT}`);
-});
-
 mongoose
   .connect("mongodb://localhost:27017")
-  .then(() => {})
-  .catch(() => {});
+  .then(() => {
+    console.log("App is connect to database");
+    app.listen(PORT, () => {
+      console.log(`App is listing to port : ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.log(error);
+  });
