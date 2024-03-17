@@ -1,8 +1,11 @@
 import express from "express";
 import mongoose from "mongoose";
-import { PORT, mongoDBURL } from "./config.js";
+import { PORT } from "./config.js";
+import { Book } from "./models/bookModel.js";
 
 const app = express();
+
+app.use(express.json());
 
 app.get("/", (req, res) => {
   console.log(req);
@@ -11,15 +14,15 @@ app.get("/", (req, res) => {
  
 app.post("/books", async (req, res) => {
   try {
-    if (!req.body.title || !req.body.author || !req.body.publishyear) {
+    if (!req.body.title || !req.body.author || !req.body.publishYear) {
       return res.status(400).send({
-        message: "send all  required fileds : title,author,publish,publishyear",
+        message: " please send all  required fileds : title,author,publish,publishyear",
       });
     }
     const newBook = {
         title : req.body.title,
         author : req.body.author,
-        publishyear: req.body.publishyear,
+        publishYear: req.body.publishYear,
     };
     const book = await Book.create(newBook);
     return res.status(200).send(book);
@@ -31,7 +34,7 @@ app.post("/books", async (req, res) => {
 
 
 mongoose
-  .connect("mongodb://localhost:27017/bookstore")
+  .connect("mongodb://localhost:27017")
   .then(() => {
     console.log("App is connect to database");
     app.listen(PORT, () => {
