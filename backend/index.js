@@ -5,6 +5,7 @@ import { Book } from "./models/bookModel.js";
 
 const app = express();
 
+// middleware for passing request to body
 app.use(express.json());
 
 app.get("/", (req, res) => {
@@ -12,6 +13,8 @@ app.get("/", (req, res) => {
   return res.status(234).send("Hey Saurav You are Good to Go");
 });
  
+
+// Route for save a new Book
 app.post("/books", async (req, res) => {
   try {
     if (!req.body.title || !req.body.author || !req.body.publishYear) {
@@ -32,6 +35,20 @@ app.post("/books", async (req, res) => {
   }
 });
 
+
+// Route for get all Books form DataBase
+app.get("/books",async(req,res) =>{
+  try {
+    const books = await Book.find({});
+    return res.status(200).json({
+      Count:books.length,
+      Data:books,
+    });
+  } catch (error) {
+    console.log(error.message);
+    res.status(500).send({ message: error.message });
+  }
+})
 
 mongoose
   .connect("mongodb://localhost:27017")
