@@ -2,7 +2,7 @@ import express from "express";
 import mongoose from "mongoose";
 import { PORT } from "./config.js";
 import { Book } from "./models/bookModel.js";
-import booksRoute from "./routes/booksroute.js";
+import booksRoute from './routes/booksroute.js'
 const app = express();
 
 // middleware for passing request to body
@@ -11,7 +11,8 @@ app.use(express.json());
 // Middleware for handling Cors policy
 // option 1: allow all origin with Default of cors(*)
 app.use(cors());
-// option 2: allow custom origin
+// option 2: allow custom origin 
+
 
 /*
 app.use(cors({
