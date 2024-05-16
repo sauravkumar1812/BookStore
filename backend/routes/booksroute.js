@@ -3,7 +3,7 @@ import { Book } from "../models/bookModel.js";
 const router = express.Router();
 
 // Route for save a new Book
-router.post("/", async (req, res) => {
+router.post("/create", async (req, res) => {
     try {
       if (!req.body.title || !req.body.author || !req.body.publishYear) {
         return res.status(400).send({
@@ -39,7 +39,7 @@ router.post("/", async (req, res) => {
   });
   
   // Route for get one Books form DataBase
-  router.get("/:id", async (req, res) => {
+  router.get("/details/:id", async (req, res) => {
     try {
       const { id } = req.params;
       const book = await Book.findById(id);
@@ -51,7 +51,7 @@ router.post("/", async (req, res) => {
   });
   
   // Route for update a book in database
-  router.put("/:id", async(req, res) => {
+  router.put("/edit/:id", async(req, res) => {
   try {
        if(!req.body.title || !req.body.author || !req.body.publishYear){
         return res.status(400).send({
@@ -73,7 +73,7 @@ router.post("/", async (req, res) => {
   })
   
   // Route forDelete a book
-  router.delete("/:id", async (req, res) => {
+  router.delete("/delete:id", async (req, res) => {
     try {
           const {id} = req.params;
           const result = await Book.findByIdAndDelete(id);
