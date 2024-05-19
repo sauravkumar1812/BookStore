@@ -1,44 +1,18 @@
-// import React from 'react'
-
-// const Edit = () => {
-//   return (
-//     <div>Edit</div>
-//   )
-// }
-
-// export default Edit
-
-import React, { useState,useEffect } from "react";
+import React, { useState } from "react";
 import BackButton from "../components/button";
 import Spinner from "../components/Spinner";
 import axios from "axios";
-import { useNavigate , useParams} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useSnackbar } from "notistack";
-const EditBook = () => {
+
+const CreateBook = () => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
   const [publishYear, setPublishYear] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const {id} = useParams();
   const {enqueueSnackbar} = useSnackbar();
-  useEffect( () => {
-    setLoading(true);
-    axios.get(`http://localhost:4519/books/${id}`)
-    .then((res) => {
-      setAuthor(res.data.author);
-      setPublishYear(res.data.publishYear);
-      setTitle(res.data.title)
-      setLoading(false);
-    })
-    .catch((error) => {
-      setLoading(false);
-      alert('An error happend , please check console');
-      console.log(error);
-    })
-
-  },[])
-  const handleEditBook = () => {
+  const handleSaveBook = () => {
     const data = {
       title,
       author,
@@ -46,10 +20,10 @@ const EditBook = () => {
     };
     setLoading(true);
     axios
-      .put(`http://localhost:4519/books/${id}`, data)
+      .post("http://localhost:4519/books", data)
       .then(() => {
         setLoading(false);
-        enqueueSnackbar('Book Edited Successfully',{variant:'success'})
+        enqueueSnackbar('Book Created Successfully',{variant:'success'})
         navigate("/");
       })
       .catch((error) => {
@@ -61,9 +35,10 @@ const EditBook = () => {
   };
 
   return (
+    
     <div className="'p-4">
       <BackButton />
-      <h1 className="text-3xl my-4">Edit Book</h1>
+      <h1 className="text-3xl my-4">Create Book</h1>
       {loading ? <Spinner /> : ""}
       <div className="flex flex-col border-2 border-sky-400 rounded-xl w-[600px] p-4 mx-auto">
         <div className="my-4">
@@ -93,12 +68,12 @@ const EditBook = () => {
             className="border-2 border-gray-500 px-4 py-2 w-full"
           />
         </div>
-        <button className="p-2 bg-sky-300 m-8" onClick={handleEditBook}> 
-          Save
+        <button className="p-2 bg-sky-300 m-8" onClick={handleSaveBook}> 
+         Save
         </button>
       </div>
     </div>
   );
 };
 
-export default EditBook;
+export default CreateBook;
